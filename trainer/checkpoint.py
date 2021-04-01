@@ -29,8 +29,6 @@ class Checkpoint():
         if not os.path.exists(self.path):
             os.makedirs(self.path)
 
-        model_path = "_".join([model.model_name, save_mode])
-
         epoch = int(kwargs['epoch']) if 'epoch' in kwargs else 0
         iters = int(kwargs['iters']) if 'iters' in kwargs else 0
         best_value = float(kwargs['best_value']
@@ -42,6 +40,11 @@ class Checkpoint():
             'iters': iters,
             'best_value': best_value
         }
+
+        model_path = "_".join([model.model_name, save_mode,
+                               'fold', str(kwargs['fold']),
+                               'epoch', str(epoch),
+                               'iters', str(iters)])
 
         if model.scaler is not None:
             weights[model.scaler.state_dict_key] = model.scaler.state_dict()
