@@ -56,6 +56,8 @@ class Trainer():
                 if self.evaluate_per_epoch != 0:
                     if epoch % self.evaluate_per_epoch == 0 and epoch+1 >= self.evaluate_per_epoch:
                         self.evaluate_epoch()
+                        if self.early_stop:
+                            break
 
                 if self.scheduler is not None and self.step_per_epoch:
                     self.scheduler.step()
@@ -66,7 +68,7 @@ class Trainer():
 
             except KeyboardInterrupt:
                 self.checkpoint.save(self.model, save_mode='last', epoch=self.epoch,
-                                     iters=self.iters, best_value=self.best_value)
+                                     iters=self.iters, best_value=self.best_value, fold=self.fold)
                 print("Stop training, checkpoint saved...")
                 break
 
@@ -150,7 +152,8 @@ class Trainer():
                     save_mode='last',
                     epoch=self.epoch,
                     iters=self.iters,
-                    best_value=self.best_value)
+                    best_value=self.best_value,
+                    fold=self.fold)
 
     def evaluate_epoch(self):
         self.model.eval()
@@ -197,9 +200,17 @@ class Trainer():
         if metric_dict['acc'] > self.best_value:
             self.best_value = metric_dict['acc']
             self.checkpoint.save(self.model, save_mode='best', epoch=self.epoch,
-                                 iters=self.iters, best_value=self.best_value)
+                                 iters=self.iters, best_value=self.best_value, fold=self.fold)
+        else:
+            self.counter += 1
+            print(
+                f'EarlyStopping counter: {self.counter} out of {self.patience}')
+            if self.counter >= self.patience:
+                print(
+                    f'Early Stopping - Fold {self.fold} Training is Stopping')
+                self.early_stop = True
 
-        if self.visualize_when_val:
+        if self.visualize_when_val and not self.early_stop:
             self.visualize_batch()
 
     def visualize_batch(self):
@@ -264,6 +275,12 @@ class Trainer():
         self.step_per_epoch = False
         self.evaluate_per_epoch = 1
         self.best_value = 0.0
+
+        self.counter = 0
+        self.early_stop = False
+        self.patience = 3
+
+        self.fold = None
         self.set_accumulate_step()
         self.set_amp()
         for i, j in kwargs.items():

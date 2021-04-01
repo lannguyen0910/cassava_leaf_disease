@@ -1,4 +1,5 @@
 import torch
+import numpy as np
 
 
 def one_hot_embedding(labels, num_classes):
