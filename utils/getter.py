@@ -5,7 +5,7 @@ from trainer import *
 from augmentations import *
 from loggers import *
 from configs import *
-
+from losses import *
 
 import torch
 from tqdm import tqdm
@@ -13,11 +13,12 @@ import torch.nn as nn
 import torch.utils.data as data
 from torch.utils.data import DataLoader
 import math
+import pandas as pd
 import torchvision.models as models
 from torch.optim import SGD, AdamW
 from torch.optim.lr_scheduler import StepLR, CosineAnnealingLR, LambdaLR, ReduceLROnPlateau, OneCycleLR, CosineAnnealingWarmRestarts
 from utils.cuda import NativeScaler
-
+from sklearn.model_selection import StratifiedKFold
 from .random_seed import seed_everything
 
 
@@ -103,19 +104,22 @@ def get_lr_scheduler(optimizer, lr_config, **kwargs):
     return scheduler, step_per_epoch
 
 
-def get_dataset_and_dataloader(config):
+def get_dataset_and_dataloader(config, df, train_idx, val_idx):
 
     train_transforms = get_augmentation(config, _type='train')
     val_transforms = get_augmentation(config, _type='val')
 
+    train_df = df.iloc[train_idx].reset_index(drop=True)
+    val_df = df.iloc[val_idx].reset_index(drop=True)
+
     trainset = CassavaDataset(
-        config=config,
+        csv_file=train_df,
         img_dir=os.path.join(
             config.data, config.project_name, config.train_imgs),
         transforms=train_transforms)
 
     valset = CassavaDataset(
-        config=config,
+        csv_file=val_df,
         img_dir=os.path.join(
             config.data, config.project_name, config.val_imgs),
         transforms=val_transforms)
