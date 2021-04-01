@@ -1,7 +1,7 @@
 import torch
 import torch.nn as nn
 import numpy as np
-from .metrics.metrictemplate import TemplateMetric
+from metrics.metrictemplate import TemplateMetric
 
 def get_distance_fn(distance):
     if distance == 'cosine':

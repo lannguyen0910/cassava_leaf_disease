@@ -112,17 +112,17 @@ def get_dataset_and_dataloader(config, df, train_idx, val_idx):
     train_df = df.iloc[train_idx].reset_index(drop=True)
     val_df = df.iloc[val_idx].reset_index(drop=True)
 
-    trainset = CassavaDataset(
-        csv_file=train_df,
-        img_dir=os.path.join(
-            config.data, config.project_name, config.train_imgs),
-        transforms=train_transforms)
+    trainset = CassavaDataset(config=config,
+                              csv_file=train_df,
+                              img_dir=os.path.join(
+                                  config.data, config.project_name, config.train_imgs),
+                              transforms=train_transforms)
 
-    valset = CassavaDataset(
-        csv_file=val_df,
-        img_dir=os.path.join(
-            config.data, config.project_name, config.val_imgs),
-        transforms=val_transforms)
+    valset = CassavaDataset(config=config,
+                            csv_file=val_df,
+                            img_dir=os.path.join(
+                                config.data, config.project_name, config.val_imgs),
+                            transforms=val_transforms)
 
     trainloader = DataLoader(
         trainset,

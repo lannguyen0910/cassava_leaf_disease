@@ -7,7 +7,6 @@ settings:
   val_imgs: "train_images"
   test_imgs: "test_images"
   train_csv: "train.csv"
-  test_csv: "test.csv"
 
   seed: 42
 
@@ -19,10 +18,10 @@ settings:
 
   pretrained_backbone: "" # Pretrained backbone
 
-  gpu_devices: "0,1" # supports multi-gpus
+  gpu_devices: "0" # supports multi-gpus
   num_epochs: 100
   batch_size: 8
-  num_workers: 4
+  num_workers: 2
 
   image_size: [512, 512] # should be square to prevent bugs [512, 640, 768, 896, 1024, 1280, 1280, 1536, 1536]
   keep_ratio: False # whether to use resize padding

@@ -14,17 +14,20 @@ class CassavaDataset(data.Dataset):
     Reads a folder of images
     """
 
-    def __init__(self, csv_file, img_dir, transforms=None):
+    def __init__(self, config, csv_file, img_dir, transforms=None):
 
+        self.config = config
         self.dir = img_dir
         self.df = csv_file
         self.images = os.listdir(img_dir)
         self.transforms = transforms
         self.fns = self.load_images()
         self.labels = self.df['label']
+        self.num_classes = len(self.labels.unique().tolist())
+        self.classes = self.labels.unique().tolist()
 
     def load_images(self):
-        with open(self.df, 'r') as f:
+        with open(self.config.train_csv, 'r') as f:
             data_list = list(csv.reader(f))
 
         return data_list
@@ -39,7 +42,7 @@ class CassavaDataset(data.Dataset):
         if self.transforms:
             item = self.transforms(image=img)
             img = item['image']
-        label = torch.LongTensor([label])
+        label = torch.LongTensor([int(label)])
 
         return {
             "img": img,
