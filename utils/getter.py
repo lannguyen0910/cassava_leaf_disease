@@ -67,7 +67,7 @@ def get_lr_scheduler(optimizer, lr_config, **kwargs):
         scheduler = OneCycleLR(
             optimizer,
             max_lr=0.001,
-            epochs=n_epochs,
+            epochs=kwargs['n_epochs'],
             steps_per_epoch=int(
                 len(kwargs["trainset"]) / kwargs["batch_size"]),
             pct_start=0.1,
@@ -108,14 +108,16 @@ def get_dataset_and_dataloader(config):
     train_transforms = get_augmentation(config, _type='train')
     val_transforms = get_augmentation(config, _type='val')
 
-    trainset = ImageClassificationDataset(
+    trainset = CassavaDataset(
         config=config,
-        img_dir=os.path.join('data', config.project_name, config.train_imgs),
+        img_dir=os.path.join(
+            config.data, config.project_name, config.train_imgs),
         transforms=train_transforms)
 
-    valset = ImageClassificationDataset(
+    valset = CassavaDataset(
         config=config,
-        img_dir=os.path.join('data', config.project_name, config.val_imgs),
+        img_dir=os.path.join(
+            config.data, config.project_name, config.val_imgs),
         transforms=val_transforms)
 
     trainloader = DataLoader(

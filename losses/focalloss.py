@@ -1,7 +1,6 @@
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
-from torch.autograd import Variable
 
 """
 class FocalLoss(nn.modules.loss._WeightedLoss):
@@ -17,39 +16,35 @@ class FocalLoss(nn.modules.loss._WeightedLoss):
         focal_loss = ((1 - pt) ** self.gamma * ce_loss).mean()
         return focal_loss
 """
+
+
 class FocalLoss(nn.Module):
-    
-    def __init__(self,alpha=None, weight=None, 
+
+    def __init__(self, weight=None,
                  gamma=2., reduction='none'):
         nn.Module.__init__(self)
         self.weight = weight
         self.gamma = gamma
         self.reduction = reduction
-        
+
     def forward(self, input_tensor, target_tensor):
         log_prob = F.log_softmax(input_tensor, dim=-1)
-        prob = torch.exp(log_prob) 
+        prob = torch.exp(log_prob)
         target = target_tensor.long()
         loss = F.nll_loss(
-            ((1 - prob) ** self.gamma) * log_prob, 
-            target_tensor.long(), 
+            ((1 - prob) ** self.gamma) * log_prob,
+            target,
             weight=self.weight,
-            reduction = self.reduction
+            reduction=self.reduction
         ).mean()
         return loss, {'T': loss.item()}
 
 
-
 if __name__ == '__main__':
-    device = torch.device('cuda')
+    device = torch.device('cpu')
     criterion = FocalLoss().to(device)
-    criterion2 = FocalLoss2().to(device)
-    preds = torch.rand(5,20).to(device)
-    targets = torch.randint(0,20,(5,)).to(device)
+    preds = torch.rand(5, 20).to(device)
+    targets = torch.randint(0, 20, (5,)).to(device)
+    print(preds.shape, targets.shape)
     loss = criterion(preds, targets)
-    loss2 = criterion2(preds, targets)
-    #loss.backward()
-    print(loss.item())
-    print(loss2.item())
-
-
+    print(loss)

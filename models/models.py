@@ -1,10 +1,9 @@
 import timm
-import torch
 import torch.nn as nn
-import torch.nn.functional as F
+
 
 class BaseTimmModel(nn.Module):
-    """Some Information about BaseTimmModel"""
+    """Some Good Pretrained Models"""
 
     def __init__(
         self,
@@ -17,7 +16,8 @@ class BaseTimmModel(nn.Module):
         self.name = name
         self.model = timm.create_model(name, pretrained=from_pretrained)
         if name.find("nfnet") != -1:
-            self.model.head.fc = nn.Linear(self.model.head.fc.in_features, num_classes)
+            self.model.head.fc = nn.Linear(
+                self.model.head.fc.in_features, num_classes)
         elif name.find("efficientnet") != -1:
             self.model.classifier = nn.Linear(
                 self.model.classifier.in_features, num_classes
@@ -25,7 +25,8 @@ class BaseTimmModel(nn.Module):
         elif name.find("resnext") != -1:
             self.model.fc = nn.Linear(self.model.fc.in_features, num_classes)
         elif name.find("vit") != -1:
-            self.model.head = nn.Linear(self.model.head.in_features, num_classes)
+            self.model.head = nn.Linear(
+                self.model.head.in_features, num_classes)
         elif name.find("densenet") != -1:
             self.model.classifier = nn.Linear(
                 self.model.classifier.in_features, num_classes
