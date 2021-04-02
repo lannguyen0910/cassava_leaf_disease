@@ -6,8 +6,7 @@ settings:
   train_imgs: "train_images"
   val_imgs: "train_images"
   test_imgs: "test_images"
-  train_csv: "train_train.csv"
-  val_csv: "train_val.csv"
+  csv_path: "csv"
 
   seed: 42
 

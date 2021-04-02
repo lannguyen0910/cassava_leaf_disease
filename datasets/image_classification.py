@@ -14,9 +14,9 @@ class CassavaDataset(data.Dataset):
     Reads a folder of images
     """
 
-    def __init__(self, config, csv_file, img_dir, transforms=None):
+    def __init__(self, path, csv_file, img_dir, transforms=None):
 
-        self.config = config
+        self.path = path
         self.dir = img_dir
         self.df = csv_file
         self.transforms = transforms
@@ -26,7 +26,7 @@ class CassavaDataset(data.Dataset):
         self.classes = self.labels.unique().tolist()
 
     def load_images(self):
-        with open(self.config.train_csv, 'r') as f:
+        with open(self.path, 'r') as f:
             data_list = list(csv.reader(f))
 
         return data_list[1:]

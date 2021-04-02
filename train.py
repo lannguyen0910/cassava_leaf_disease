@@ -13,20 +13,21 @@ def train(args, config):
     device = torch.device("cuda" if torch.cuda.is_available() else 'cpu')
 
     seed_everything(config.seed)
-    df = pd.read_csv(config.train_csv)
+    folds_path = os.listdir(config.csv_path)
 
-    X_train = df.iloc[:, :-1]
-    Y_train = df.iloc[:, -1]
-
-    cv = StratifiedKFold(n_splits=5, random_state=config.seed, shuffle=True)
-
-    for fold, (train_idx, val_idx) in enumerate(cv.split(X_train, Y_train)):
+    for fold in folds_path:
         torch.cuda.empty_cache()
-        print(f'---------- Fold {fold + 1} is training ----------')
-        print(f'Train Size : {len(train_idx)}, Valid Size : {len(val_idx)}')
+        print(f'---------- Fold {str(fold)} is training ----------')
+
+        path = os.path.join(config.csv_path, fold)
+        train_path = f'{path}/{fold}_train.csv'
+        val_path = f'{path}/{fold}_val.csv'
+
+        train_df = pd.read_csv(train_path)
+        val_df = pd.read_csv(val_path)
 
         trainset, valset, trainloader, valloader = get_dataset_and_dataloader(
-            config, df, train_idx, val_idx)
+            config, train_path, val_path, train_df, val_df)
 
         net = BaseTimmModel(
             name=config.model_name,
