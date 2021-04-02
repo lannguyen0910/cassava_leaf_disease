@@ -4,17 +4,16 @@ import random
 import tqdm
 
 
-
 parser = argparse.ArgumentParser()
-parser.add_argument('-csv', type=str, default='raw.csv',
+parser.add_argument('--csv', type=str, default='raw.csv',
                     help='path to csv file')
-parser.add_argument('-ratio', type=float, default=0.9,
+parser.add_argument('--ratio', type=float, default=0.9,
                     help='ratio of the train set (default: 0.9)')
-parser.add_argument('-seed', type=int, default = 0,
+parser.add_argument('--seed', type=int, default=0,
                     help='random seed (default: 0)')
-parser.add_argument('-out', type=str, default='.',
+parser.add_argument('--out', type=str, default='.',
                     help='directory to save the splits (default: .)')
-parser.add_argument('-skip_header', type=str, default= True,
+parser.add_argument('--skip_header', type=str, default=True,
                     help='Skip header in csv (default: True')
 
 if __name__ == '__main__':
@@ -24,11 +23,10 @@ if __name__ == '__main__':
     random.seed(args.seed)
 
     # Load CSV
-    lines = csv.reader(open(args.csv, encoding = 'utf8'))
+    lines = csv.reader(open(args.csv, encoding='utf8'))
     if args.skip_header:
         next(lines)
     data = list(lines)
-
 
     TRAIN = str(args.csv[:-4]) + '_train'
     VAL = str(args.csv[:-4]) + '_val'
@@ -52,10 +50,11 @@ if __name__ == '__main__':
 
     # Save split
     for split, classes in splits.items():
-        out = [['reivew', 'rating']]
+        out = [['image_id', 'label']]
         out.extend([
             [fn, cl]
             for cl, fns in classes.items()
             for fn in fns
         ])
-        csv.writer(open(f'{args.out}/{split}.csv', 'w', newline='', encoding = 'utf8')).writerows(out)
+        csv.writer(open(f'{args.out}/{split}.csv', 'w',
+                        newline='', encoding='utf8')).writerows(out)

@@ -65,7 +65,7 @@ def train(args, config):
             model=net,
             metrics=metric,
             scaler=scaler,
-            criterion=nn.CrossEntropyLoss(),
+            criterion=smoothCELoss(),
             optimizer=optimizer,
             optim_params=optimizer_params,
             device=device)
@@ -116,8 +116,8 @@ def train(args, config):
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser('Training EfficientDet')
-    parser.add_argument('config', default='config', type=str,
+    parser = argparse.ArgumentParser('Training EfficientNet-b6')
+    parser.add_argument('--config', default='configs', type=str,
                         help='project file that contains parameters')
     parser.add_argument('--print_per_iter', type=int,
                         default=300, help='Number of iteration to print')
@@ -135,6 +135,6 @@ if __name__ == '__main__':
                         help='whether to freeze the backbone')
 
     args = parser.parse_args()
-    config = Config(os.path.join('configs', 'configs.yaml'))
+    config = Config(os.path.join('configs', args.config + '.yaml'))
 
     train(args, config)

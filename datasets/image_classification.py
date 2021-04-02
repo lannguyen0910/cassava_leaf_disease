@@ -19,7 +19,6 @@ class CassavaDataset(data.Dataset):
         self.config = config
         self.dir = img_dir
         self.df = csv_file
-        self.images = os.listdir(img_dir)
         self.transforms = transforms
         self.fns = self.load_images()
         self.labels = self.df['label']
@@ -30,7 +29,7 @@ class CassavaDataset(data.Dataset):
         with open(self.config.train_csv, 'r') as f:
             data_list = list(csv.reader(f))
 
-        return data_list
+        return data_list[1:]
 
     def __getitem__(self, index):
         img_path, label = self.fns[index]

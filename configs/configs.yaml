@@ -6,7 +6,8 @@ settings:
   train_imgs: "train_images"
   val_imgs: "train_images"
   test_imgs: "test_images"
-  train_csv: "train.csv"
+  train_csv: "train_train.csv"
+  val_csv: "train_val.csv"
 
   seed: 42
 
@@ -20,7 +21,7 @@ settings:
 
   gpu_devices: "0" # supports multi-gpus
   num_epochs: 100
-  batch_size: 8
+  batch_size: 64
   num_workers: 2
 
   image_size: [512, 512] # should be square to prevent bugs [512, 640, 768, 896, 1024, 1280, 1280, 1536, 1536]
@@ -37,12 +38,12 @@ settings:
 
   lr_scheduler:
     name:
-      "1cycle-yolo" #[plateau | cosine | 1cycle-yolo | 1cycle]
+      "cosine" #[plateau | cosine | 1cycle-yolo | 1cycle]
       # if need to specify more scheduler arguments, do it here
 
   # gradient accumulation
   mixed_precision: True # whether to use nvidia apex
-  total_accumulate_steps: 64 # step * batch_size, not use if equal 0
+  total_accumulate_steps: 512 # step * batch_size, not use if equal 0
 
   # Test time augmentation
   tta: False # whether to use TTA while validation
