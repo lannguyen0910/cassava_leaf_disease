@@ -26,8 +26,8 @@ class Classifier(BaseModel):
     def training_step(self, batch):
         outputs = self.model(batch, self.device)
         targets = batch['targets'].to(self.device)
-        loss = self.criterion(outputs, targets)
-        loss_dict = {'T': loss.item()}
+        loss, loss_dict = self.criterion(outputs, targets)
+
         return loss, loss_dict
 
     def inference_step(self, batch):
@@ -39,8 +39,7 @@ class Classifier(BaseModel):
     def evaluate_step(self, batch):
         outputs = self.model(batch, self.device)
         targets = batch['targets'].to(self.device)
-        loss = self.criterion(outputs, targets)
-        loss_dict = {'T': loss.item()}
+        loss, loss_dict = self.criterion(outputs, targets)
 
         self.update_metrics(outputs=outputs, targets=targets)
         return loss, loss_dict

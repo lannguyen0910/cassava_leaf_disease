@@ -3,9 +3,6 @@ import argparse
 import os
 
 
-seed_everything()
-
-
 def train(args, config):
     os.environ['CUDA_VISIBLE_DEVICES'] = config.gpu_devices
     num_gpus = len(config.gpu_devices.split(','))
