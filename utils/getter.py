@@ -6,6 +6,7 @@ from augmentations import *
 from loggers import *
 from configs import *
 from losses import *
+from optimizers import *
 
 import torch
 from tqdm import tqdm
@@ -47,6 +48,15 @@ def get_lr_policy(opt_config):
             'lr': lr,
             'weight_decay': opt_config['weight_decay'],
             'betas': (opt_config['momentum'], 0.999)}
+
+    if opt_config['sam'] == 'sam':
+        optimizer = SAM
+        optimizer_params = {
+            'lr': lr,
+            'weight_decay': opt_config['weight_decay'],
+            'momentum': opt_config['momentum'],
+            'base_optimizer': SGD
+        }
     return optimizer, optimizer_params
 
 

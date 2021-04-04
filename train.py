@@ -48,7 +48,7 @@ def train(args, config):
         metric = [
             AccuracyMetric(),
             BalancedAccuracyMetric(num_classes=trainset.num_classes),
-            ConfusionMatrix(trainset.classes),
+            # ConfusionMatrix(trainset.classes),
             F1ScoreMetric(n_classes=trainset.num_classes)
         ]
 
@@ -112,6 +112,9 @@ def train(args, config):
 
         del model, optimizer, trainloader, valloader, scheduler, scaler
         torch.cuda.empty_cache()
+
+        if int(fold) == len(folds_path) - 1:
+            break
 
 
 if __name__ == '__main__':

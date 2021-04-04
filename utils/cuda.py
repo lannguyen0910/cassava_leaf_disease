@@ -3,7 +3,7 @@
 Hacked together by / Copyright 2020 Ross Wightman
 """
 import torch
-
+from optimizers import *
 try:
     from apex import amp
     has_apex = True
@@ -19,11 +19,12 @@ class ApexScaler:
         with amp.scale_loss(loss, optimizer) as scaled_loss:
             scaled_loss.backward(create_graph=create_graph)
         if clip_grad is not None:
-            torch.nn.utils.clip_grad_norm_(amp.master_params(optimizer), clip_grad)
-        
-    def step(self,optimizer):
+            torch.nn.utils.clip_grad_norm_(
+                amp.master_params(optimizer), clip_grad)
+
+    def step(self, optimizer):
         optimizer.step()
-        
+
     def state_dict(self):
         if 'state_dict' in amp.__dict__:
             return amp.state_dict()
@@ -41,14 +42,19 @@ class NativeScaler:
 
     def __call__(self, loss, optimizer, create_graph=False):
         self._scaler.scale(loss).backward(create_graph=create_graph)
-        
-    
-    def step(self, optimizer, clip_grad=None, parameters=None):
+
+    def step(self, optimizer, epoch=None, clip_grad=None, parameters=None):
         if clip_grad is not None:
             assert parameters is not None
-            self._scaler.unscale_(optimizer)  # unscale the gradients of optimizer's assigned params in-place
+            # unscale the gradients of optimizer's assigned params in-place
+            self._scaler.unscale_(optimizer)
             torch.nn.utils.clip_grad_norm_(parameters, clip_grad)
-        self._scaler.step(optimizer)
+
+        if isinstance(optimizer, SAM) and epoch is not None:
+            self._scaler.step(self.optimizer, step=epoch)
+
+        else:
+            self._scaler.step(optimizer)
         self._scaler.update()
 
     def state_dict(self):

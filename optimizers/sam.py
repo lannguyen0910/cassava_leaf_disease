@@ -2,6 +2,10 @@ import torch
 
 
 class SAM(torch.optim.Optimizer):
+    """
+    SOTA optimizer
+    """
+
     def __init__(self, params, base_optimizer, rho=0.05, **kwargs):
         assert rho >= 0.0, f"Invalid rho, should be non-negative: {rho}"
 

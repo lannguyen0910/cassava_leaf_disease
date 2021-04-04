@@ -95,7 +95,7 @@ class Trainer():
             if self.use_accumulate:
                 if (i+1) % self.accumulate_steps == 0 or i == len(self.trainloader)-1:
                     self.model.scaler.step(
-                        self.optimizer, clip_grad=self.clip_grad, parameters=self.model.parameters())
+                        self.optimizer, self.epoch, clip_grad=self.clip_grad, parameters=self.model.parameters())
                     self.optimizer.zero_grad()
 
                     if self.scheduler is not None and not self.step_per_epoch:
@@ -107,7 +107,7 @@ class Trainer():
                         self.logging(log_dict)
             else:
                 self.model.scaler.step(
-                    self.optimizer, clip_grad=self.clip_grad, parameters=self.model.parameters())
+                    self.optimizer, self.epoch, clip_grad=self.clip_grad, parameters=self.model.parameters())
                 self.optimizer.zero_grad()
                 if self.scheduler is not None and not self.step_per_epoch:
                     # self.scheduler.step()
@@ -160,7 +160,7 @@ class Trainer():
         epoch_loss = {}
 
         metric_dict = {}
-        print('=============================EVALUATION===================================')
+        print('\n=============================EVALUATION===================================')
         start_time = time.time()
         with torch.no_grad():
             for batch in tqdm(self.valloader):
