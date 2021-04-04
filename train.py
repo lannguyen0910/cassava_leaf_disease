@@ -84,6 +84,7 @@ def train(args, config):
                           model,
                           trainloader,
                           valloader,
+                          fold=fold,
                           checkpoint=Checkpoint(
                               save_per_iter=args.save_interval, path=args.saved_path),
                           best_value=best_value,

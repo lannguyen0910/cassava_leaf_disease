@@ -14,16 +14,16 @@ settings:
 
   #################   TRAINING CONFIG   ###################
 
-  model_name: "efficientnet_b6" #[]
+  model_name: " nfnet_f2" #
 
   pretrained_backbone: "" # Pretrained backbone
 
   gpu_devices: "0" # supports multi-gpus
   num_epochs: 100
-  batch_size: 64
+  batch_size: 16
   num_workers: 2
 
-  image_size: [512, 512] # should be square to prevent bugs [512, 640, 768, 896, 1024, 1280, 1280, 1536, 1536]
+  image_size: [256, 256] # should be square to prevent bugs [512, 640, 768, 896, 1024, 1280, 1280, 1536, 1536]
   keep_ratio: False # whether to use resize padding
 
   mixup: True
@@ -42,7 +42,7 @@ settings:
 
   # gradient accumulation
   mixed_precision: True # whether to use nvidia apex
-  total_accumulate_steps: 512 # step * batch_size, not use if equal 0
+  total_accumulate_steps: 128 # step * batch_size, not use if equal 0
 
   # Test time augmentation
   tta: False # whether to use TTA while validation

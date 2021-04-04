@@ -31,7 +31,16 @@ configs = {
             'block_index': 6
         },
         'target_layer_names': "1"
+    },
+
+    "vit":  {
+        'feature_module': {
+            'block_name': 'blocks',
+            'block_index': 11
+        },
+        'target_layer_names': 'attn'
     }
+
 }
 
 
