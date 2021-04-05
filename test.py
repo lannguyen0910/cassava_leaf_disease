@@ -4,10 +4,9 @@ import timm
 import argparse
 import os
 
-model_archs = ['efficientnet_b1', 'efficientnet_b6', 'vit_base_patch16_224']
-
+model_archs = ['efficientnet_b1', 'vit_base_patch16_224']
 weights_path = sorted(os.listdir('weights'))
-weights = [1, 1, 1, 1, 1, 1]
+weights = [1, 1, 1, 1]
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
@@ -83,6 +82,7 @@ def inference_one_epoch(model, data_loader, device):
 def test(config):
     df = pd.DataFrame()
     df['image_id'] = os.listdir(config.test_imgs)
+    print('df', df.head())
 
     for i, model_arch in enumerate(model_archs):
         if model_arch.split('_')[0] == 'vit':
@@ -93,7 +93,6 @@ def test(config):
             test_transforms = get_augmentation(config, _type='test')
             testset = TestDataset(
                 df=df, img_dir=config.test_imgs, transforms=test_transforms)
-
         testloader = DataLoader(testset, batch_size=config.batch_size,
                                 num_workers=config.num_workers, pin_memory=True, shuffle=False)
 
@@ -102,8 +101,9 @@ def test(config):
 
         tst_preds = []
         for j, weight in enumerate(weights_path[i*2: i*2 + 2]):
-            model.load_state_dict(torch.load(
-                os.path.join('weights', weight))['model'])
+            states = torch.load(
+                os.path.join('weights', weight))
+            model.load_state_dict(states['model'], strict=False)
             with torch.no_grad():
                 for _ in range(2):
                     tst_preds += [weights[j] / sum(weights) / 2 *
@@ -122,14 +122,15 @@ def test(config):
         del model
         torch.cuda.empty_cache()
 
-    df['label'] = np.argmax(tst_preds, axis=1)
+    df['label'] = np.argmax(avg_tst_preds, axis=1)
     df.to_csv('submission.csv', index=False)
-    df.head()
+    print(df.head())
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser('Training EfficientNet-b6')
-    parser.add_argument('--config', default='configs', type=str,
+    parser = argparse.ArgumentParser(
+        'Testing Emsemble (efficientnet-b1 & vit_base_patch16_224)')
+    parser.add_argument('--config', default='test', type=str,
                         help='project file that contains parameters')
     args = parser.parse_args()
     config = Config(os.path.join('configs', args.config + '.yaml'))
