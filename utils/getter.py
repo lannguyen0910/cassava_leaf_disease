@@ -15,7 +15,6 @@ import torch.utils.data as data
 from torch.utils.data import DataLoader
 import math
 import pandas as pd
-import torchvision.models as models
 from torch.optim import SGD, AdamW
 from torch.optim.lr_scheduler import StepLR, CosineAnnealingLR, LambdaLR, ReduceLROnPlateau, OneCycleLR, CosineAnnealingWarmRestarts
 from utils.cuda import NativeScaler

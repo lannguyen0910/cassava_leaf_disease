@@ -9,7 +9,7 @@ from configs import *
 import albumentations as A
 from albumentations.pytorch.transforms import ToTensorV2
 from augmentations import Denormalize
-
+import torch.nn as nn
 from models import BaseTimmModel
 
 

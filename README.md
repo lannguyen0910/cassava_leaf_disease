@@ -1,4 +1,4 @@
-# **🌿 Cassvana Leaf Classification with Pytorch Custom Template for Image Classification**
+# **🌿 Cassvana Leaf Disease Classification**
 Kaggle Competition: https://www.kaggle.com/c/cassava-leaf-disease-classification
 
 
@@ -67,6 +67,12 @@ Run this command to generate predictions and submission file (Require fine-tune 
 ```
 python test.py --config=test
 ```
+
+## Result
+I have trained on **Efficientnet-b6**, **EfficientNet-b1** and **ViT**. Here are the results:
+- The result from eff-b6 is not quite good, accuracy just between 0.7-0.8 before Early Stopping.
+- The result from eff-b1 and ViT are good enough: about 0.87x each.
+
 
 
 ## **To-do list:**

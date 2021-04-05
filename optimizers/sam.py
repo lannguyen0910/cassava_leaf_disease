@@ -1,7 +1,8 @@
 import torch
+from torch.optim import Optimizer
 
 
-class SAM(torch.optim.Optimizer):
+class SAM(Optimizer):
     """
     SOTA optimizer
     """
