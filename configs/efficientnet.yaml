@@ -5,7 +5,6 @@ settings:
   data: ""
   train_imgs: "train_images"
   val_imgs: "train_images"
-  test_imgs: "test_images"
   csv_path: "csv"
 
   seed: 42

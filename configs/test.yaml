@@ -1,0 +1,16 @@
+settings:
+  #################   DATASET CONFIG   ###################
+
+  project_name: "" # also the folder name of the dataset that under ./data folder
+  data: ""
+  test_imgs: "test_images"
+  num_classes: 5
+
+  #################   TEST CONFIG   ###################
+
+  num_epochs: 100
+  batch_size: 1
+  num_workers: 2
+
+  image_size: [224, 224] # should be square to prevent bugs [512, 640, 768, 896, 1024, 1280, 1280, 1536, 1536]
+  keep_ratio: False # whether to use resize padding

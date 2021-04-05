@@ -15,10 +15,7 @@ class BaseTimmModel(nn.Module):
         super().__init__()
         self.name = name
         self.model = timm.create_model(name, pretrained=from_pretrained)
-        if name.find("nfnet") != -1:
-            self.model.head.fc = nn.Linear(
-                self.model.head.fc.in_features, num_classes)
-        elif name.find("efficientnet") != -1:
+        if name.find("efficientnet") != -1:
             self.model.classifier = nn.Linear(
                 self.model.classifier.in_features, num_classes
             )
