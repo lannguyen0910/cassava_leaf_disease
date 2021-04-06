@@ -27,6 +27,5 @@ models/tpu_model.py
 .ipynb_checkpoints/Faster RCNN-checkpoint.ipynb
 *.1
 *.ipynb
-*.txt
 Data Visualizer.ipynb
 weights

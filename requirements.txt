@@ -1,0 +1,10 @@
+torch
+tqdm
+timm
+tensorboard
+albumentations
+opencv-python
+apex
+scikit-learn
+numpy
+pandas
