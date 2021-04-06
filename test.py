@@ -80,6 +80,7 @@ def inference_one_epoch(model, data_loader, device):
 
 
 def test(config):
+    seed_everything(config.seed)
     df = pd.DataFrame()
     df['image_id'] = os.listdir(config.test_imgs)
     print('df', df.head())

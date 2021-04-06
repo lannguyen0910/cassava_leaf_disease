@@ -9,6 +9,11 @@ Kaggle Competition: https://www.kaggle.com/c/cassava-leaf-disease-classification
 **Private test:** 69% of the test set.
 **The dataset is imbalanced with 5 labels**
 
+Original data images
+![data](imgs/dataset.PNG)
+
+Transformed data images using albumentations
+![transform](imgs/transforms.PNG)
 ## **Requirements**
 
 Python >= 3.8. Run this command to install all the dependencies:
@@ -31,17 +36,18 @@ pip install -r requirements.txt
   │     └─── test.yaml
   │     └─── config.py
   |              
-  └─── csv                   # labels folder               
+  └───  csv                   # labels folder               
   │     └─── folds
   │         └─── fold_train.csv
   │         └─── fold_val.csv
   │                     
-  └─── loggers                    # experiments folder               
+  └───  loggers                    # experiments folder               
   │     └─── runs
   │         └─── loss_fold
   |         └─── acc_fold        
-  └─── weights                    # experiments folder               
-  │     └─── model_name.pth    
+  └───  weights                    # experiments folder               
+  │     └─── model_name1.pth 
+  |     └───  ...   
   |     
   |            
   train.py
@@ -70,22 +76,22 @@ python test.py --config=test
 
 ## Result
 I have trained on **Efficientnet-b6**, **EfficientNet-b1** and **ViT**. Here are the results:
-- The result from eff-b6 is not quite good, accuracy just between 0.7-0.8 before Early Stopping.
-- The result from eff-b1 and ViT are good enough: about 0.87x each.
+- The result from **Efficientnet-b6** is not quite good, accuracy just between **0.7-0.8** before Early Stopping.
+- The result from **Efficientnet-b1** and **ViT** are good enough: about **0.87x** each.
 
 
 
 ## **To-do list:**
 
 - [x] Multi-GPU support (nn.DataParallel)
-- [x] GradCAM vizualization
+- [x] GradCAM vizualization (not work on Multi-GPU yet)
 - [x] Gradient Accumulation
 - [x] Mixed precision
 - [x] Stratified KFold splitting 
-- [x] Inference with Ensemble Model and TTA
+- [x] Inference with Ensemble Model technique and TTA
 - [x] Metrics: Accuracy, Balanced Accuracy, F1-Score
 - [x] Losses: Focal Loss, SmoothCrossEntropy Loss
-- [x] Optimizer: AdamW, SGD, SAM (not debug yet)
+- [x] Optimizer: AdamW, SGD. Adas, SAM (not debug yet)
 - [x] Scheduler: ReduceLROnPlateau, CosineAnnealingWarmRestarts
 - [x] Usable Models: Vit, EfficientNet, Resnext, Densenet
 - [x] Early Stopping on training

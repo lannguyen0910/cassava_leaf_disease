@@ -5,7 +5,7 @@ settings:
   data: ""
   test_imgs: "test_images"
   num_classes: 5
-
+  seed: 42
   #################   TEST CONFIG   ###################
 
   num_epochs: 100
