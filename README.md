@@ -11,12 +11,12 @@ Kaggle Competition: https://www.kaggle.com/c/cassava-leaf-disease-classification
 
 
 | ![data](imgs/dataset.PNG) |
-|:--:| 
-| **Original data images** |
+| :-----------------------: |
+| **Original data images**  |
 
 | ![transform](imgs/transforms.PNG) |
-|:--:| 
-| **After albumentations** |
+| :-------------------------------: |
+|     **After albumentations**      |
 
 ## **Requirements**
 
@@ -63,13 +63,21 @@ pip install -r requirements.txt
 **Full explanation on each YAML file**
 
 
-## **Training**
-
-Run this command and fine-tune on parameters for fully train observation (Require change)
+## **Training Steps**
+1. Download and unzip dataset from https://www.kaggle.com/c/cassava-leaf-disease-classification/data
+2. Run this command to split train.csv using KFold. A folder name 'csv' will be created with different k-folds
 ```
-python train.py --config=config_name   --resume=weight_path   --print_per_iters=100  --gradcam_visualization
+python utils/tools/split_kfold.py --csv=train.csv --seed=42 --out=csv --n_splits=5 --shuffle=True 
 ```
-
+3. Run this command on terminal or colaboratory (change if needed)
+```
+tensorboard --logdir='./loggers/runs'
+```
+4. Run this command and fine-tune on parameters for fully train observation (Require change, can't use gradcam on DataParallel)
+```
+python train.py --config=config_name --resume=weight_path --print_per_iters=100 --gradcam_visualization
+```
+5. The model weights will be saved automatically in the 'weights' folder
 
 ## **Inference**
 
