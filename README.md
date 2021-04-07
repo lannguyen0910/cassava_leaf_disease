@@ -96,13 +96,13 @@ I have trained on **Efficientnet-b6**, **EfficientNet-b1** and **ViT**. Here are
 2. The result from **Efficientnet-b1** and **ViT** are good enough: about **0.87x** each.
 
 **Some visualization for Mosaic Disease with GradCam**  
-![6103](6103.jpg) | ![eff6103](cam_eff_6103.jpg)
+![6103](imgs/6103_.jpg) | ![eff6103](imgs/cam_eff_6103.jpg)
 
-![218377](218377.jpg) | ![eff218377](cam_eff_218377.jpg)
+![218377](imgs/218377_.jpg) | ![eff218377](imgs/cam_eff_218377.jpg)
 
-![336550](336550.jpg) | ![eff336550](cam_eff_336550.jpg)
+![336550](imgs/336550_.jpg) | ![eff336550](imgs/cam_eff_336550.jpg)
 
-![469487](469487.jpg) | ![eff469487](cam_eff_469487.jpg)
+![469487](imgs/469487_.jpg) | ![eff469487](imgs/cam_eff_469487.jpg)
 
 
 
