@@ -94,8 +94,8 @@ python test.py --config=test
 I have trained on **Efficientnet-b6**, **EfficientNet-b1** and **ViT**. Here are the results:
 1. The result from **Efficientnet-b6** is not quite good, accuracy just between **0.7-0.8** before Early Stopping.
 2. The result from **Efficientnet-b1** and **ViT** are good enough: about **0.87x** each.
+3. **Some visualization for Mosaic Disease with GradCam**  
 
-**Some visualization for Mosaic Disease with GradCam**  
 ![6103](imgs/6103_.jpg) | ![eff6103](imgs/cam_eff_6103.jpg)
 
 ![218377](imgs/218377_.jpg) | ![eff218377](imgs/cam_eff_218377.jpg)
