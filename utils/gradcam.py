@@ -1,15 +1,15 @@
-import torch
-import argparse
-import cv2
-import numpy as np
-import torch
 import os
-from torch.autograd import Function
-from configs import *
+import numpy as np
+import cv2
+import argparse
+import torch
+import matplotlib.pyplot as plt
 import albumentations as A
+from torch.autograd import Function
+from torchvision import models, transforms
+from configs import *
 from albumentations.pytorch.transforms import ToTensorV2
 from augmentations import Denormalize
-import torch.nn as nn
 from models import BaseTimmModel
 
 
@@ -33,14 +33,13 @@ configs = {
         'target_layer_names': "1"
     },
 
-    "vit":  {
+    "vit": {
         'feature_module': {
             'block_name': 'blocks',
             'block_index': 11
         },
-        'target_layer_names': 'attn'
+        'target_layer_names': "attn"
     }
-
 }
 
 
@@ -101,7 +100,19 @@ class ModelOutputs():
 
     def __call__(self, x):
         target_activations = []
-        for name, module in self.model._modules.items():
+
+        try:
+            self.model._modules[self.feature_module_name]
+            self.model_modules = self.model._modules
+        except KeyError:
+            self.model_modules = self.model._modules['module']._modules
+
+        print('model modules 1: ',
+              self.model._modules['module']._modules[self.feature_module_name])
+        print('model modules 2: ',
+              self.model_modules[self.feature_module_name])
+
+        for name, module in self.model_modules.items():
             if name == self.feature_module_name:
                 for name2, module2 in module._modules.items():
                     if module2 == self.feature_module:
@@ -121,7 +132,11 @@ class GradCam:
         self.feature_module_config = configs[config_name]["feature_module"]
         self.feature_module_name = self.feature_module_config["block_name"]
 
-        self.feature_module = self.model._modules[self.feature_module_name]
+        try:
+            self.feature_module = self.model._modules[self.feature_module_name]
+        except KeyError:
+            self.feature_module = self.model._modules['module']._modules[self.feature_module_name]
+
         if "block_index" in self.feature_module_config.keys():
             block_index = int(self.feature_module_config["block_index"])
             self.feature_module = self.feature_module[block_index]
@@ -137,7 +152,6 @@ class GradCam:
 
     def __call__(self, input_img, target_category=None):
         features, output = self.extractor(input_img)
-
         if target_category == None:
             target_category = np.argmax(output.cpu().data.numpy())
 

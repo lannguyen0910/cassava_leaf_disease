@@ -73,7 +73,7 @@ python utils/tools/split_kfold.py --csv=train.csv --seed=42 --out=csv --n_splits
 ```
 tensorboard --logdir='./loggers/runs'
 ```
-4. Run this command and fine-tune on parameters for fully train observation (Require change, can't use gradcam on DataParallel)
+1. Run this command and fine-tune on parameters for fully train observation (Require change)
 ```
 python train.py --config=config_name --resume=weight_path --print_per_iters=100 --gradcam_visualization
 ```
@@ -96,7 +96,7 @@ I have trained on **Efficientnet-b6**, **EfficientNet-b1** and **ViT**. Here are
 ## **To-do list:**
 
 - [x] Multi-GPU support (nn.DataParallel)
-- [x] GradCAM vizualization (not work on Multi-GPU yet)
+- [x] GradCAM vizualization
 - [x] Gradient Accumulation
 - [x] Mixed precision
 - [x] Stratified KFold splitting 

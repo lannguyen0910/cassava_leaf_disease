@@ -31,7 +31,7 @@ class BaseTimmModel(nn.Module):
         else:
             assert False, "Classifier block not included in TimmModel"
 
-        # self.model = nn.DataParallel(self.model)
+        self.model = nn.DataParallel(self.model)
 
     def forward(self, batch, device):
         inputs = batch["imgs"]
