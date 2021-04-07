@@ -4,7 +4,6 @@
 datasets/train.csv
 *.csv
 .vscode
-*.jpg
 models/resnet.py
 *.pth
 *.json

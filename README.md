@@ -3,12 +3,16 @@ Kaggle Competition: https://www.kaggle.com/c/cassava-leaf-disease-classification
 
 
 ## **Dataset**
-- **Train set:** ~26,000 images (21367 images of the 2020 contest was merged with 500 images from the 2019 contest).
-- **Test set:** ~15,000 images.
-- **Public test:** 31% of the test set.
-- **Private test:** 69% of the test set.
-- **The dataset is imbalanced with 5 labels**
-
+**Train set:** ~26,000 images (21367 images of the 2020 contest was merged with 500 images from the 2019 contest).
+**Test set:** ~15,000 images.
+**Public test:** 31% of the test set.
+**Private test:** 69% of the test set.
+**The dataset is imbalanced with 5 labels:**
+1. Cassava Bacterial Blight (CBB)
+2. Cassava Brown Streak Disease (CBSD)
+3. Cassava Green Mottle (CGM)
+4. Cassava Mosaic Disease (CMD)
+5. Healthy
 
 | ![data](imgs/dataset.PNG) |
 | :-----------------------: |
@@ -88,8 +92,17 @@ python test.py --config=test
 
 ## Result
 I have trained on **Efficientnet-b6**, **EfficientNet-b1** and **ViT**. Here are the results:
-- The result from **Efficientnet-b6** is not quite good, accuracy just between **0.7-0.8** before Early Stopping.
-- The result from **Efficientnet-b1** and **ViT** are good enough: about **0.87x** each.
+1. The result from **Efficientnet-b6** is not quite good, accuracy just between **0.7-0.8** before Early Stopping.
+2. The result from **Efficientnet-b1** and **ViT** are good enough: about **0.87x** each.
+
+**Some visualization for Mosaic Disease with GradCam**  
+![6103](6103.jpg) | ![eff6103](cam_eff_6103.jpg)
+
+![218377](218377.jpg) | ![eff218377](cam_eff_218377.jpg)
+
+![336550](336550.jpg) | ![eff336550](cam_eff_336550.jpg)
+
+![469487](469487.jpg) | ![eff469487](cam_eff_469487.jpg)
 
 
 
