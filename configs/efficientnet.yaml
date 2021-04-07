@@ -9,7 +9,14 @@ settings:
 
   seed: 42
 
-  obj_list: ["No Finding", "Finding"]
+  obj_list:
+    [
+      "Cassava Bacterial Blight (CBB)",
+      "Cassava Brown Streak Disease (CBSD)",
+      "Cassava Green Mottle (CGM)",
+      "Cassava Mosaic Disease (CMD)",
+      "Healthy",
+    ]
 
   #################   TRAINING CONFIG   ###################
 
