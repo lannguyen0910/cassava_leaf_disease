@@ -3,10 +3,11 @@ Kaggle Competition: https://www.kaggle.com/c/cassava-leaf-disease-classification
 
 
 ## **Dataset**
-**Train set:** ~26,000 images (21367 images of the 2020 contest was merged with 500 images from the 2019 contest).
-**Test set:** ~15,000 images.
-**Public test:** 31% of the test set.
-**Private test:** 69% of the test set.
+- **Train set:** ~26,000 images (21367 images of the 2020 contest was merged with 500 images from the 2019 contest).
+- **Test set:** ~15,000 images.
+- **Public test:** 31% of the test set.
+- **Private test:** 69% of the test set.
+
 **The dataset is imbalanced with 5 labels:**
 1. Cassava Bacterial Blight (CBB)
 2. Cassava Brown Streak Disease (CBSD)
