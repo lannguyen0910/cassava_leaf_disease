@@ -50,11 +50,11 @@ def show_cam_on_image(img, mask, label):
     cam = cam / np.max(cam)
 
     cv2.putText(cam, str(label),
-                (10, 500),
+                (30, 40),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 1,
-                (255, 255, 255),
-                2)
+                (0, 0, 0),
+                2, cv2.LINE_AA)
 
     return np.uint8(255 * cam)
 
@@ -207,7 +207,7 @@ def main(args, config):
         num_classes=len(config.obj_list))
 
     if args.weight is not None:
-        state = torch.load(args.weight)
+        state = torch.load(args.weight, map_location=args.map_location)
         try:
             net.load_state_dict(state)
         except RuntimeError as e:
@@ -237,11 +237,13 @@ if __name__ == '__main__':
         'Vizualize Gradient Class Activation Mapping')
     parser.add_argument('config', default='config', type=str,
                         help='project file that contains parameters')
+    parser.add_argument('--map_location', default='cuda', type=str,
+                        help='Choice to load by CUDA or CPU (cuda | cpu')
     parser.add_argument('--image', type=str, help='image to test Grad-CAM')
     parser.add_argument('--weight', type=str, help='weight to load to model')
     parser.add_argument('--image_out', default='./cam.jpg',
                         type=str, help='image to test Grad-CAM')
     args = parser.parse_args()
-    config = Config(os.path.join('configs', args.config+'.yaml'))
+    config = Config(os.path.join('configs', args.config + '.yaml'))
 
     main(args, config)
