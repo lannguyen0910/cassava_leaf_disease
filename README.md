@@ -124,4 +124,6 @@ I have trained on **Efficientnet-b6**, **EfficientNet-b1** and **ViT**. Here are
 
 
 ## **Reference:**
+Make sure to give them a star
+- Template from: https://github.com/kaylode/custom-template
 - timm models from https://github.com/rwightman/pytorch-image-models
